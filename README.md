@@ -1,2 +1,2 @@
-# phenomenalabs.github.io
+# phenomenalabs
 Phenomena labs new site WIP
