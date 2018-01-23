@@ -125,33 +125,31 @@ body {
   color: rgba(0,0,255,1);
 }
 
-.nav2{
-  display: grid;
-  padding-left: 31px;
-  padding-bottom: 50px;
+
+.social-icons{
+
+  position: fixed;
+  display: inline-grid;
+  width: 38px;
+  height: 40px;
+  padding: 7px;
+  z-index: 15;
+  padding-left: 30px;
+  bottom: 350px;
+
+}
+
+a {
+  padding-bottom: 5px;
 }
 
 
-.nav2-mastfoot .nav2-link {
-  padding: .25rem 0;
-  color: rgba(0,0,255,1);
-  background-color: transparent;
-  border-bottom: .25rem solid transparent;
+a:hover {
+    opacity:0.8;
 }
 
-.nav2-mastfoot .nav2-link:hover,
-.nav2-mastfoot .nav2-link:focus {
-  border-bottom-color: rgba(255,255,255,.25);
-}
 
-.nav2-mastfoot .nav2-link + .nav2-link {
-  margin-left: 1rem;
-}
 
-.nav2-mastfoot .active {
-  color: #fff;
-  border-bottom-color: #fff;
-}
 
 /*
  * Affix and center
