@@ -1,45 +1,51 @@
 import '../css/style.css';
 import 'jquery';
-import Image from './handlers/imageHandler';
+import DeviceChecker from './handlers/DeviceChecker';
+import Assets from './handlers/assetHandler';
 import Projects from './handlers/projectHandler';
 
 //preload all thumbnails
-var thumbnails = new Image(
-	'futureofmusic',
-	'gravity',
-	'helloplaynye',
-	'jane',
-	'myth',
-	'offf',
-	'pyramind',
-	'redaxes',
-	'sono',
-	'thewalk'
+var assets = new Assets(
+  'futureofmusic',
+  'gravity',
+  'helloplaynye',
+  'jane',
+  'myth',
+  'offf',
+  'pyramind',
+  'redaxes',
+  'sono',
+  'thewalk'
 );
 var projects;
+var deviceChecker = new DeviceChecker();
 
 function init() {
-	var projectNum = 10;
-	projects = new Projects(
-		projectNum, //number of projects
-		thumbnails.material, //load all the Projects imgs
-		thumbnails.playerURLs, //load all the projects links
-		441, //project block width
-		248, //project block height
-		8, //gap width between projects blocks
-		2 //ho wmany projects in a row
-	);
+  var isRetina = deviceChecker.is_retina();
+  var projectNum = 10; //
+  projects = new Projects(
+    isRetina, //whetherisRetina
+    projectNum, //number of projects
+    assets.imgs, //load all the Projects imgs
+    assets.playerURLs, //load all the projects links
+    assets.projectInfo, //load all the projects links
+    441, //project block width
+    248, //project block height
+    8, //gap width between projects blocks
+    2 //ho wmany projects in a row
+  );
 }
 
 function animate() {
-	requestAnimationFrame(animate);
-	projects.render();
+  requestAnimationFrame(animate);
+  projects.render();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-	if (thumbnails.progress == thumbnails.material.length) {
-		$('#loader').fadeOut(500);
-		init();
-		animate();
-	}
+  if (assets.progress == assets.imgs.length) {
+    $('#loader')
+      .fadeOut(500);
+    init();
+    animate();
+  }
 });

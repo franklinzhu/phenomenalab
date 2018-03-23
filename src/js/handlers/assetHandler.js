@@ -1,6 +1,6 @@
 import 'three';
 
-export default function Image(
+export default function Assets(
 	_THUMB0,
 	_THUMB1,
 	_THUMB2,
@@ -27,7 +27,7 @@ export default function Image(
 		_THUMB8,
 		_THUMB9
 	];
-	this.material = [];
+	this.imgs = [];
 	this.progress = 0;
 
 	for (var i = 0; i < this.urls.length; i++) {
@@ -37,17 +37,18 @@ export default function Image(
 		var mat = new THREE.MeshBasicMaterial({
 			map: texture
 		});
-		this.material.push(mat);
+		this.imgs.push(mat);
 		this.progress++;
 		console.log(
 			'thumbnails' + this.progress / this.urls.length * 100 + '%' + 'loaded'
 		);
 	}
 
-	this.initPlayer();
+	this.initURLs();
+	this.initInfo();
 }
 
-Image.prototype.initPlayer = function() {
+Assets.prototype.initURLs = function() {
 	this.playerURLs = [
 		'https://player.vimeo.com/video/207461532', //futureofmusic
 		'https://player.vimeo.com/video/233104062', //gravity
@@ -59,5 +60,20 @@ Image.prototype.initPlayer = function() {
 		'https://player.vimeo.com/video/187690451', //redaxes
 		'http://sono.livyatanim.com/', //sono
 		'https://player.vimeo.com/video/166021791' //thewalk
+	];
+};
+
+Assets.prototype.initInfo = function() {
+	this.projectInfo = [
+		'Future of Music', //futureofmusic
+		'Gravity', //gravity
+		'Hello Playnye', //helloplaynye
+		'Jane', //jane
+		'Myth', //myth
+		'OFFF', //offf
+		'Pyramind', //pyramind
+		'Red Axes', //redaxes
+		'Sono', //sono
+		'The Walk' //thewalk
 	];
 };
