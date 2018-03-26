@@ -9,6 +9,7 @@ import * as screenfull from 'screenfull';
 var OrbitControls = require('three-orbit-controls')(THREE);
 
 export default function Projects(
+  _ISMOBILE,
   _ISRETINA,
   _PROJECTNUM,
   _PROJECTTHUMB,
@@ -19,6 +20,7 @@ export default function Projects(
   _PROJECTGAP,
   _ROW
 ) {
+  this.isMobile = _ISMOBILE;
   this.isRetina = _ISRETINA;
   this.projectMat = _PROJECTTHUMB;
   this.projects = [];
@@ -38,6 +40,11 @@ export default function Projects(
   }; //t
 
   console.log('Retina display is ' + this.isRetina);
+  if (this.isMobile) {
+    console.log('using mobile device');
+  } else {
+    console.log('not using mobile device');
+  }
 
   this.init();
 }
@@ -243,7 +250,9 @@ Projects.prototype.initUI = function() {
   this.topnote.addEventListener('click', this.handleFullScreen.bind(this));
 
   document.addEventListener('mousemove', this.mouseMove.bind(this));
+  document.addEventListener('touchmove', this.mouseMove.bind(this));
   document.addEventListener('mousedown', this.mouseDown.bind(this));
+  document.addEventListener('touchstart', this.mouseDown.bind(this));
   window.addEventListener('resize', this.resize.bind(this));
 };
 
@@ -346,8 +355,13 @@ Projects.prototype.mouseDown = function() {
 
 Projects.prototype.mouseMove = function(event) {
   event.preventDefault();
-  this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
-  this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  if (this.isMobile) {
+    this.mouse.x = +(event.targetTouches[0].pageX / window.innerwidth) * 2 + -1;
+    this.mouse.y = -(event.targetTouches[0].pageY / window.innerHeight) * 2 + 1;
+  } else {
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  }
 };
 
 Projects.prototype.resize = function() {
