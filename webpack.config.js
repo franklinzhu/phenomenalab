@@ -16,7 +16,7 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js'
 	},
-	//devtool: 'inline-source-map', //dev
+	devtool: 'inline-source-map', //dev
 	module: {
 		rules: [
 			{
@@ -40,8 +40,21 @@ module.exports = {
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
-							outputPath: 'assets/imgs',
-							publicPath: 'assets/imgs'
+							outputPath: 'static/imgs',
+							publicPath: 'static/imgs'
+						}
+					}
+				]
+			},
+			{
+				test: /\.(wav|mp3)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+							outputPath: 'static/sounds',
+							publicPath: 'static/sounds'
 						}
 					}
 				]
@@ -50,7 +63,11 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			src: path.resolve(__dirname, 'src')
+			src: path.resolve(__dirname, 'src'),
+			'three/OrbitControls': path.join(
+				__dirname,
+				'node_modules/three/examples/js/controls/OrbitControls.js'
+			)
 		}
 	},
 	plugins: [
@@ -61,7 +78,7 @@ module.exports = {
 			TweenMax: 'gsap'
 		}),
 		//extractPlugin,
-		new UglifyJsPlugin(), //production
+		//new UglifyJsPlugin(), //production
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'
 		}),

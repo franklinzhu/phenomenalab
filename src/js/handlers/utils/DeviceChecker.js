@@ -1,6 +1,6 @@
 export default function DeviceChecker() {}
 
-DeviceChecker.prototype.is_retina = function() {
+DeviceChecker.prototype.is_retina = function () {
   if (window.matchMedia) {
     var _m = window.matchMedia(
       'only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)'
@@ -9,9 +9,9 @@ DeviceChecker.prototype.is_retina = function() {
   }
 };
 
-DeviceChecker.prototype.is_mobile = function() {
+DeviceChecker.prototype.is_mobile = function () {
   var check = false;
-  (function(a) {
+  (function (a) {
     if (
       /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(
         a
