@@ -108,8 +108,7 @@ Effector.prototype.update = function() {
 	if (
 		this.showAbout != 0 ||
 		this.showContact != 0 ||
-		this.interactive.value != 1 ||
-		this.interactive2.value != 1
+		this.interactive.value != 1
 	) {
 	} else {
 		this.hover();
@@ -150,9 +149,6 @@ Effector.prototype.handleEsc = function() {
 Effector.prototype.handleAbout = function() {
 	if (this.interactive.value == 1) {
 		this.showAbout = this.showAbout ^ 1;
-		TweenMax.to(this.interactive2, 1.5, {
-			value: this.interactive2.value ^ 1
-		});
 		if (this.showContact == 1) {
 			this.showContact = this.showContact ^ 1;
 			$('#contact').fadeOut(500);
@@ -170,23 +166,20 @@ Effector.prototype.handleAbout = function() {
 			)[0].children[1].children[0].style.pointerEvents =
 				'none';
 		} else {
-			TweenMax.to(this.target.group.position, 2, {
-				y: 0
-			});
-			document.getElementsByClassName(
-				'inner'
-			)[0].children[1].children[0].style.pointerEvents =
-				'auto';
-		}
+				TweenMax.to(this.target.group.position, 2, {
+					y: 0
+				});
+				document.getElementsByClassName(
+					'inner'
+				)[0].children[1].children[0].style.pointerEvents =
+					'auto';
+			}
 	}
 };
 
 Effector.prototype.handleContact = function() {
 	if (this.interactive.value == 1) {
 		this.showContact = this.showContact ^ 1;
-		TweenMax.to(this.interactive2, 1.5, {
-			value: this.interactive2.value ^ 1
-		});
 		if (this.showAbout == 1) {
 			this.showAbout = this.showAbout ^ 1;
 			$('#about').fadeOut(500);
@@ -212,8 +205,8 @@ Effector.prototype.handleContact = function() {
 				'inner'
 			)[0].children[1].children[2].style.pointerEvents =
 				'auto';
+			}
 		}
-	}
 };
 
 Effector.prototype.mouseDown = function() {

@@ -93,8 +93,7 @@ Projects.prototype.render = function() {
   this.navi.update(
     this.effector.showAbout,
     this.effector.showContact,
-    this.effector.interactive,
-    this.effector.interactive2
+    this.effector.interactive
   );
   this.renderer.render(this.scene, this.camera);
 };
