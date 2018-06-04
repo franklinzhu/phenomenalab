@@ -5,7 +5,8 @@ export default function Actors(
   _ROW,
   _PROJECTNUM,
   _PROJECTTHUMB,
-  _SCENE
+  _SCENE,
+  _MOBILE
 ) {
   this.width = _WIDTH;
   this.height = _HEIGHT;
@@ -14,14 +15,16 @@ export default function Actors(
   this.projectNum = _PROJECTNUM;
   this.projectMat = _PROJECTTHUMB;
   this.scene = _SCENE;
+  this.md = _MOBILE;
 
   this.init();
 }
 
-Actors.prototype.init = function () {
+Actors.prototype.init = function() {
   var thickness = 15;
   var geo = new THREE.BoxBufferGeometry(this.width, this.height, thickness);
-  geo.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, thickness / 2));
+  geo.applyMatrix(new THREE.Matrix4()
+    .makeTranslation(0, 0, thickness / 2));
   this.group = new THREE.Group();
 
   for (var i = 0; i < this.projectNum; i++) {
@@ -65,9 +68,10 @@ Actors.prototype.init = function () {
     32
   );
 
-  var texture = new THREE.TextureLoader().load(
-    require('./../../../../static/imgs/ui/webgrid.png')
-  );
+  var texture = new THREE.TextureLoader()
+    .load(
+      require('./../../../../static/imgs/ui/webgrid.png')
+    );
   var mshMat = new THREE.MeshStandardMaterial({
     color: 'rgb(89,97,105)',
     alphaMap: texture,
@@ -79,8 +83,13 @@ Actors.prototype.init = function () {
 
   this.group.add(mshFloor);
 
-  this.group.rotation.set(-Math.PI / 2, 0, 0);
-  this.group.position.y = -2200;
+  if (this.md.mobile()) {
+    this.group.rotation.set(0, 0, 0);
+  } else {
+    this.group.rotation.set(-Math.PI / 2, 0, 0);
+    this.group.position.y = -2200;
+  }
+
   this.scene.add(this.group);
 
   this.light = new THREE.SpotLight(0xffffff, 0.1);
@@ -102,7 +111,7 @@ Actors.prototype.init = function () {
   this.initAnimation();
 };
 
-Actors.prototype.initAnimation = function () {
+Actors.prototype.initAnimation = function() {
   TweenMax.to(this.group.position, 3, {
     y: 0
   });
