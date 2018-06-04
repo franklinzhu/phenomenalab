@@ -104,7 +104,9 @@ Projects.prototype.init = function() {
 };
 
 Projects.prototype.render = function() {
-  if (this.md.mobile()) {} else {
+  if (this.md.mobile()) {
+    this.navimb.update();
+  } else {
     this.navi.update(
       this.effector.showAbout,
       this.effector.showContact,
