@@ -49,6 +49,7 @@ module.exports = {
 			},
 			{
 				test: /\.obj$/,
+<<<<<<< HEAD
 				use: [
 					{
 						loader: 'file-loader',
@@ -62,11 +63,29 @@ module.exports = {
 			},
 			{
 				test: /\.mp3$/,
+=======
+>>>>>>> a6ab4421a55484c5149b44201d646024f2110086
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
+<<<<<<< HEAD
+=======
+							outputPath: 'static/models',
+							publicPath: 'static/models'
+						}
+					}
+				]
+			},
+			{
+				test: /\.mp3$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+>>>>>>> a6ab4421a55484c5149b44201d646024f2110086
 							outputPath: 'static/audio',
 							publicPath: 'static/audio'
 						}

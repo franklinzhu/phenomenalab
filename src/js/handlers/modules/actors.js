@@ -18,11 +18,10 @@ export default function Actors(
   this.init();
 }
 
-Actors.prototype.init = function() {
+Actors.prototype.init = function () {
   var thickness = 15;
   var geo = new THREE.BoxBufferGeometry(this.width, this.height, thickness);
-  geo.applyMatrix(new THREE.Matrix4()
-    .makeTranslation(0, 0, thickness / 2));
+  geo.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, thickness / 2));
   this.group = new THREE.Group();
 
   for (var i = 0; i < this.projectNum; i++) {
@@ -66,10 +65,9 @@ Actors.prototype.init = function() {
     32
   );
 
-  var texture = new THREE.TextureLoader()
-    .load(
-      require('./../../../../static/imgs/ui/webgrid.png')
-    );
+  var texture = new THREE.TextureLoader().load(
+    require('./../../../../static/imgs/ui/webgrid.png')
+  );
   var mshMat = new THREE.MeshStandardMaterial({
     color: 'rgb(89,97,105)',
     alphaMap: texture,
@@ -104,7 +102,7 @@ Actors.prototype.init = function() {
   this.initAnimation();
 };
 
-Actors.prototype.initAnimation = function() {
+Actors.prototype.initAnimation = function () {
   TweenMax.to(this.group.position, 3, {
     y: 0
   });
