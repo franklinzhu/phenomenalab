@@ -5,10 +5,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// var extractPlugin = new ExtractTextPlugin({
-//   filename: 'dist/main.css'
-// });
-
 module.exports = {
 	mode: 'development',
 	entry: './src/js/app.js',
@@ -19,10 +15,6 @@ module.exports = {
 	//devtool: 'inline-source-map', //dev
 	module: {
 		rules: [
-			// {
-			//   test: /\.css$/,
-			//   use: ['style-loader', 'css-loader']
-			// },
 			{
 				test: /\.css$/,
 				use: ExtractTextPlugin.extract({
@@ -49,7 +41,6 @@ module.exports = {
 			},
 			{
 				test: /\.obj$/,
-<<<<<<< HEAD
 				use: [
 					{
 						loader: 'file-loader',
@@ -63,29 +54,11 @@ module.exports = {
 			},
 			{
 				test: /\.mp3$/,
-=======
->>>>>>> a6ab4421a55484c5149b44201d646024f2110086
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
-<<<<<<< HEAD
-=======
-							outputPath: 'static/models',
-							publicPath: 'static/models'
-						}
-					}
-				]
-			},
-			{
-				test: /\.mp3$/,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: '[name].[ext]',
->>>>>>> a6ab4421a55484c5149b44201d646024f2110086
 							outputPath: 'static/audio',
 							publicPath: 'static/audio'
 						}

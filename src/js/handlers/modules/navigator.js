@@ -22,11 +22,7 @@ Navi.prototype.init = function () {
   this.controls.maxPolarAngle = degree;
 };
 
-<<<<<<< HEAD
-Navi.prototype.update = function(_SHOWABOUT, _SHOWCONTACT, _INTERACTIVE) {
-=======
 Navi.prototype.update = function (_SHOWABOUT, _SHOWCONTACT, _INTERACTIVE) {
->>>>>>> a6ab4421a55484c5149b44201d646024f2110086
   this.showAbout = _SHOWABOUT;
   this.showContact = _SHOWCONTACT;
   this.interactive = _INTERACTIVE;
