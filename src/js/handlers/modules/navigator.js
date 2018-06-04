@@ -22,22 +22,15 @@ Navi.prototype.init = function() {
   this.controls.maxPolarAngle = degree;
 };
 
-Navi.prototype.update = function(
-  _SHOWABOUT,
-  _SHOWCONTACT,
-  _INTERACTIVE,
-  _INTERACTIVE2
-) {
+Navi.prototype.update = function(_SHOWABOUT, _SHOWCONTACT, _INTERACTIVE) {
   this.showAbout = _SHOWABOUT;
   this.showContact = _SHOWCONTACT;
   this.interactive = _INTERACTIVE;
-  this.interactive2 = _INTERACTIVE2;
 
   if (
     this.showAbout != 0 ||
     this.showContact != 0 ||
-    this.interactive.value != 1 ||
-    this.interactive2.value != 1
+    this.interactive.value != 1
   ) {
     this.controls.enableRotate = false;
   } else {

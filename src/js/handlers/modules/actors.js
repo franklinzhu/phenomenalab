@@ -28,20 +28,20 @@ Actors.prototype.init = function() {
   for (var i = 0; i < this.projectNum; i++) {
     var mat = [
       new THREE.MeshStandardMaterial({
-        color: 'rgb(89,97,105)'
+        color: 'rgb(99,107,115)'
       }),
       new THREE.MeshStandardMaterial({
-        color: 'rgb(89,97,105)'
+        color: 'rgb(99,107,115)'
       }),
       new THREE.MeshStandardMaterial({
-        color: 'rgb(89,97,105)'
+        color: 'rgb(99,107,115)'
       }),
       new THREE.MeshStandardMaterial({
-        color: 'rgb(89,97,105)'
+        color: 'rgb(99,107,115)'
       }),
       this.projectMat[i],
       new THREE.MeshStandardMaterial({
-        color: 'rgb(89,97,105)'
+        color: 'rgb(99,107,115)'
       })
     ];
 
@@ -55,6 +55,8 @@ Actors.prototype.init = function() {
       0.5 *
       (this.height + this.gap);
     msh.position.z = 100;
+    msh.castShadow = true;
+    msh.receiveShadow = true;
     this.group.add(msh);
   }
 
@@ -83,9 +85,19 @@ Actors.prototype.init = function() {
   this.group.position.y = -2200;
   this.scene.add(this.group);
 
-  var dirLight = new THREE.DirectionalLight(0xffffff, 3);
-  dirLight.position.set(20, 10, 6);
-  this.scene.add(dirLight);
+  this.light = new THREE.SpotLight(0xffffff, 0.1);
+  this.light.position.set(1600, 900, -600);
+  this.light.castShadow = true;
+  this.light.penumbra = 0.8;
+  this.light.angle = Math.PI / 2;
+  this.light.shadow = new THREE.LightShadow(
+    new THREE.PerspectiveCamera(40, 1, 200, 20000)
+  );
+  this.light.shadow.bias = -0.0000022;
+  this.light.shadow.mapSize.width = 8192;
+  this.light.shadow.mapSize.height = 8192;
+  this.scene.add(this.light);
+
   var ambientLight = new THREE.AmbientLight(0xffffff, 1);
   this.scene.add(ambientLight);
 
@@ -95,5 +107,9 @@ Actors.prototype.init = function() {
 Actors.prototype.initAnimation = function() {
   TweenMax.to(this.group.position, 3, {
     y: 0
+  });
+
+  TweenMax.to(this.light, 4, {
+    intensity: 1.8
   });
 };

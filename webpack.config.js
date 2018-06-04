@@ -16,19 +16,20 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js'
 	},
-	devtool: 'inline-source-map', //dev
+	//devtool: 'inline-source-map', //dev
 	module: {
 		rules: [
-			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
-			},
 			// {
 			//   test: /\.css$/,
-			//   use: extractPlugin.extract({
-			//     use: ["style-loader"]
-			//   })
+			//   use: ['style-loader', 'css-loader']
 			// },
+			{
+				test: /\.css$/,
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader']
+				})
+			},
 			{
 				test: /\.html$/,
 				use: ['html-loader']
@@ -47,14 +48,27 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.(wav|mp3)$/,
+				test: /\.obj$/,
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
-							outputPath: 'static/sounds',
-							publicPath: 'static/sounds'
+							outputPath: 'static/models',
+							publicPath: 'static/models'
+						}
+					}
+				]
+			},
+			{
+				test: /\.mp3$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+							outputPath: 'static/audio',
+							publicPath: 'static/audio'
 						}
 					}
 				]
@@ -67,6 +81,10 @@ module.exports = {
 			'three/OrbitControls': path.join(
 				__dirname,
 				'node_modules/three/examples/js/controls/OrbitControls.js'
+			),
+			'three/DeviceOrientationControls': path.join(
+				__dirname,
+				'node_modules/three/examples/js/controls/DeviceOrientationControls.js'
 			)
 		}
 	},
@@ -77,8 +95,10 @@ module.exports = {
 			THREE: 'three',
 			TweenMax: 'gsap'
 		}),
-		//extractPlugin,
-		//new UglifyJsPlugin(), //production
+		new ExtractTextPlugin({
+			filename: 'main.css'
+		}),
+		new UglifyJsPlugin(), //production
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'
 		}),

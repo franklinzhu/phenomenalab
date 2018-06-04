@@ -7,6 +7,7 @@ import {
 import * as screenfull from 'screenfull';
 var MobileDetect = require('mobile-detect');
 import DeviceChecker from './utils/DeviceChecker';
+import 'three/DeviceOrientationControls';
 
 import Actors from './modules/actors';
 import Effector from './modules/effector';
@@ -49,14 +50,6 @@ export default function Projects(
 
 Projects.prototype.init = function() {
   this.scene = new THREE.Scene();
-  this.camera = new THREE.PerspectiveCamera(
-    25,
-    window.innerWidth / window.innerHeight,
-    1,
-    10000
-  );
-  this.camera.position.set(1200, 1900, 2200);
-  this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   this.actors = new Actors(
     this.width,
@@ -68,15 +61,30 @@ Projects.prototype.init = function() {
     this.scene
   );
 
+  this.camera = new THREE.PerspectiveCamera(
+    25,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+  );
+  if (this.md.mobile()) {
+    this.camera.position.set(0, 4800, 0);
+    this.navimb = new THREE.DeviceOrientationControls(this.actors.group);
+  } else {
+    this.camera.position.set(1200, 1900, 2200);
+    this.navi = new Navi(this.camera);
+  }
+
+  this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
   this.effector = new Effector(
     this.mouse,
     this.camera,
     this.actors,
     this.url,
-    this.info
+    this.info,
+    this.md
   );
-
-  this.navi = new Navi(this.camera);
 
   this.renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -84,18 +92,28 @@ Projects.prototype.init = function() {
   this.renderer.setPixelRatio(window.devicePixelRatio);
   this.renderer.setSize(window.innerWidth, window.innerHeight);
   this.renderer.setClearColor('rgb(228,229,233)');
+  if (this.md.mobile()) {
+    this.renderer.shadowMap.enabled = false;
+  } else {
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  }
   container.appendChild(this.renderer.domElement);
 
   this.initUI();
 };
 
 Projects.prototype.render = function() {
-  this.navi.update(
-    this.effector.showAbout,
-    this.effector.showContact,
-    this.effector.interactive,
-    this.effector.interactive2
-  );
+  if (this.md.mobile()) {
+    this.navimb.update();
+  } else {
+    this.navi.update(
+      this.effector.showAbout,
+      this.effector.showContact,
+      this.effector.interactive
+    );
+  }
+
   this.renderer.render(this.scene, this.camera);
 };
 
@@ -117,6 +135,10 @@ Projects.prototype.initUI = function() {
   document.addEventListener('mousedown', this.mouseDown.bind(this));
   document.addEventListener('touchstart', this.mouseDown.bind(this));
   window.addEventListener('resize', this.resize.bind(this));
+  window.addEventListener(
+    'deviceorientation',
+    this.handleOrientation.bind(this)
+  );
 };
 
 Projects.prototype.handleAbout = function() {
@@ -145,8 +167,10 @@ Projects.prototype.mouseMove = function(event) {
   event.preventDefault();
   this.effector.update();
   if (this.md.mobile()) {
-    this.mouse.x = +(event.targetTouches[0].pageX / window.innerwidth) * 2 + -1;
+    //console.log(event.targetTouches[0].pageX);
+    this.mouse.x = +(event.targetTouches[0].pageX / window.innerwidth) * 2 - 1;
     this.mouse.y = -(event.targetTouches[0].pageY / window.innerHeight) * 2 + 1;
+    //console.log(this.mouse.x);
   } else {
     this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -154,11 +178,26 @@ Projects.prototype.mouseMove = function(event) {
 };
 
 Projects.prototype.resize = function() {
-  this.w = this.isRetina ? window.innerWidth / 1 : window.innerWidth / 1;
-  this.h = this.isRetina ? window.innerHeight / 1 : window.innerHeight / 1;
+  this.w = window.innerWidth / 1;
+  this.h = window.innerHeight / 1;
 
   this.camera.aspect = this.w / this.h;
   this.camera.updateProjectionMatrix();
 
   this.renderer.setSize(this.w, this.h);
+};
+
+Projects.prototype.handleOrientation = function() {
+  var convert = Math.PI / 180;
+  var factor = 0.3;
+  var alpha = event.alpha * convert - this.scene.children[0].rotation.z;
+  var beta = event.beta * convert - this.scene.children[0].rotation.x;
+  var gamma = event.gamma * convert - this.scene.children[0].rotation.y;
+  if (this.md.mobile() && this.scene.children.length > 0) {
+    this.scene.children[0].rotation.set(
+      beta * factor,
+      alpha * factor,
+      gamma * factor
+    );
+  }
 };

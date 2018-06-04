@@ -130,6 +130,13 @@ body {
   display: none;
 }
 
+#about p {
+  width: 65%;
+  font-weight: 100;
+  font-size: 1.15vw;
+  font-style: italic
+}
+
 #contact {
   position: absolute;
   color: blue;
@@ -179,11 +186,20 @@ body {
  */
 
 .masthead {
-  margin-bottom: 2rem;
+  width: 100%;
+  position: fixed;
+  top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .masthead-brand {
   margin-bottom: 0;
+}
+
+.masthead-brand img {
+  width: 85px;
+  height: auto;
 }
 
 .nav-masthead .nav-link {
@@ -206,7 +222,7 @@ body {
   border-bottom-color: #fff;
 }
 
-@media (min-width: 40em) {
+@media (min-width: 5em) {
   .masthead-brand {
     float: left;
   }
@@ -233,7 +249,13 @@ body {
  */
 
 .mastfoot {
+  padding-left: 30px;
+  padding-right: 30px;
   color: rgba(0, 0, 255, 1);
+  position: fixed;
+  bottom: 0;
+  font-size: 1.6vh;
+  text-align: left;
 }
 
 .social-icons {
@@ -271,6 +293,7 @@ a:not([href]):not([tabindex]) {
   color: blue;
   text-decoration: none;
   cursor: pointer;
+  font-size: 17px;
   padding: 11px;
   padding-top: 0px;
 }
@@ -282,7 +305,7 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
 
 #topnote {
   padding-top: 0px;
-  padding-left: 30px;
+  padding-left: 0px;
   cursor: pointer;
 }
 
@@ -296,19 +319,43 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
  * Affix and center
  */
 
-@media (min-width: 0em) {
+@media (max-width: 70em) {
   /* Pull out the header and footer */
+  #about {
+    font-size: 3vw;
+  }
+  #about p {
+    font-size: 3vw;
+  }
+  #contact {
+    font-size: 3vw;
+  }
+  #topnote {
+    display: none;
+  }
+  .masthead-brand img {
+    width: 70px;
+    height: auto;
+  }
   .masthead {
     position: fixed;
     top: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    /* font-size: 4vw; */
+  }
+  .masthead-brand {
+    transform: translateY(-35%);
   }
   .mastfoot {
     position: fixed;
     bottom: 0;
-    text-align: left;
-    padding-left: 30px;
+    font-size: 1.6vh;
+    text-align: center;
+  }
+  .social-icons {
+    position: fixed;
+    display: contents;
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
