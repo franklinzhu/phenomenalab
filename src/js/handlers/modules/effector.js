@@ -5,7 +5,8 @@ export default function Effector(
 	_CAMERA,
 	_TARGET,
 	_PROJECTURLS,
-	_PROJECTINFOS
+	_PROJECTINFOS,
+	_MOBILE
 ) {
 	this.mouse = _MOUSE;
 	this.camera = _CAMERA;
@@ -14,6 +15,7 @@ export default function Effector(
 	this.target = _TARGET;
 	this.url = _PROJECTURLS;
 	this.info = _PROJECTINFOS;
+	this.md = _MOBILE;
 
 	this.showAbout = 0; //f
 	this.showContact = 0; //f
@@ -157,23 +159,40 @@ Effector.prototype.handleAbout = function() {
 			.delay(700)
 			.fadeToggle('slow', 'linear');
 		if (this.showAbout == 1) {
-			TweenMax.to(this.target.group.position, 2, {
-				y: -600
+			if (this.md.mobile()) {
+				TweenMax.to(this.target.group.position, 2, {
+					z: 600
+				});
+			} else {
+				TweenMax.to(this.target.group.position, 2, {
+					y: -600
+				});
+			}
+			TweenMax.to(this.target.light, 2, {
+				intensity: 0.4
 			});
-
 			document.getElementsByClassName(
 				'inner'
 			)[0].children[1].children[0].style.pointerEvents =
 				'none';
 		} else {
+			if (this.md.mobile()) {
+				TweenMax.to(this.target.group.position, 2, {
+					z: 0
+				});
+			} else {
 				TweenMax.to(this.target.group.position, 2, {
 					y: 0
 				});
-				document.getElementsByClassName(
-					'inner'
-				)[0].children[1].children[0].style.pointerEvents =
-					'auto';
 			}
+			TweenMax.to(this.target.light, 2, {
+				intensity: 1.8
+			});
+			document.getElementsByClassName(
+				'inner'
+			)[0].children[1].children[0].style.pointerEvents =
+				'auto';
+		}
 	}
 };
 
@@ -189,24 +208,41 @@ Effector.prototype.handleContact = function() {
 			.fadeToggle('slow', 'linear');
 
 		if (this.showContact == 1) {
-			TweenMax.to(this.target.group.position, 2, {
-				y: 600
+			if (this.md.mobile()) {
+				TweenMax.to(this.target.group.position, 2, {
+					z: -600
+				});
+			} else {
+				TweenMax.to(this.target.group.position, 2, {
+					y: 600
+				});
+			}
+			TweenMax.to(this.target.light, 2, {
+				intensity: 0.4
 			});
-
 			document.getElementsByClassName(
 				'inner'
 			)[0].children[1].children[2].style.pointerEvents =
 				'none';
 		} else {
-			TweenMax.to(this.target.group.position, 2, {
-				y: 0
+			if (this.md.mobile()) {
+				TweenMax.to(this.target.group.position, 2, {
+					z: 0
+				});
+			} else {
+				TweenMax.to(this.target.group.position, 2, {
+					y: 0
+				});
+			}
+			TweenMax.to(this.target.light, 2, {
+				intensity: 1.8
 			});
 			document.getElementsByClassName(
 				'inner'
 			)[0].children[1].children[2].style.pointerEvents =
 				'auto';
-			}
 		}
+	}
 };
 
 Effector.prototype.mouseDown = function() {

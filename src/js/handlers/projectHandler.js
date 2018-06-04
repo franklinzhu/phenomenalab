@@ -51,7 +51,13 @@ Projects.prototype.init = function() {
 		1,
 		10000
 	);
-	this.camera.position.set(1200, 1900, 2200);
+	if (this.md.mobile()) {
+		this.camera.position.set(0, 4800, 0);
+	} else {
+		this.camera.position.set(1200, 1900, 2200);
+		this.navi = new Navi(this.camera);
+	}
+
 	this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 	this.actors = new Actors(
@@ -69,10 +75,9 @@ Projects.prototype.init = function() {
 		this.camera,
 		this.actors,
 		this.url,
-		this.info
+		this.info,
+		this.md
 	);
-
-	this.navi = new Navi(this.camera);
 
 	this.renderer = new THREE.WebGLRenderer({
 		antialias: true
@@ -80,17 +85,27 @@ Projects.prototype.init = function() {
 	this.renderer.setPixelRatio(window.devicePixelRatio);
 	this.renderer.setSize(window.innerWidth, window.innerHeight);
 	this.renderer.setClearColor('rgb(228,229,233)');
+	if (this.md.mobile()) {
+		this.renderer.shadowMap.enabled = false;
+	} else {
+		this.renderer.shadowMap.enabled = true;
+		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+	}
 	container.appendChild(this.renderer.domElement);
 
 	this.initUI();
 };
 
 Projects.prototype.render = function() {
-	this.navi.update(
-		this.effector.showAbout,
-		this.effector.showContact,
-		this.effector.interactive
-	);
+	if (this.md.mobile()) {
+	} else {
+		this.navi.update(
+			this.effector.showAbout,
+			this.effector.showContact,
+			this.effector.interactive
+		);
+	}
+
 	this.renderer.render(this.scene, this.camera);
 };
 
@@ -166,15 +181,15 @@ Projects.prototype.resize = function() {
 
 Projects.prototype.handleOrientation = function() {
 	var convert = Math.PI / 180;
-	var factor = 0.05;
+	var factor = 0.3;
 	var alpha = event.alpha * convert - this.scene.children[0].rotation.z;
 	var beta = event.beta * convert - this.scene.children[0].rotation.x;
 	var gamma = event.gamma * convert - this.scene.children[0].rotation.y;
 	if (this.md.mobile() && this.scene.children.length > 0) {
 		this.scene.children[0].rotation.set(
-			beta * factor - 99 * Math.PI / 180,
-			gamma * factor,
-			alpha * factor
+			beta * factor,
+			alpha * factor,
+			gamma * factor
 		);
 	}
 };

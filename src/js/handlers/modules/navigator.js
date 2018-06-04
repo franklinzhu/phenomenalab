@@ -5,7 +5,7 @@ export default function Navi(_CAMERA) {
   this.init();
 }
 
-Navi.prototype.init = function() {
+Navi.prototype.init = function () {
   var degree =
     Math.PI / 2 -
     Math.asin(
@@ -22,11 +22,7 @@ Navi.prototype.init = function() {
   this.controls.maxPolarAngle = degree;
 };
 
-Navi.prototype.update = function(
-  _SHOWABOUT,
-  _SHOWCONTACT,
-  _INTERACTIVE
-) {
+Navi.prototype.update = function (_SHOWABOUT, _SHOWCONTACT, _INTERACTIVE) {
   this.showAbout = _SHOWABOUT;
   this.showContact = _SHOWCONTACT;
   this.interactive = _INTERACTIVE;

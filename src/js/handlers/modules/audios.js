@@ -3,7 +3,7 @@ export default function Audios() {
   this.init();
 }
 
-Audios.prototype.init = function() {
+Audios.prototype.init = function () {
   this.paths = [
     'sound1',
     'sound2',
@@ -18,13 +18,13 @@ Audios.prototype.init = function() {
   this.tracks = [];
   for (var i = 0; i < this.paths.length; i++) {
     var audio = new Audio(
-      require('./../../../../static/sounds/' + this.paths[i] + '.wav')
+      require('./../../../../static/sounds/' + this.paths[i] + '.mp3')
     );
     this.tracks.push(audio);
   }
 };
 
-Audios.prototype.play = function(_INDEX, _LENGTH) {
+Audios.prototype.play = function (_INDEX, _LENGTH) {
   this.prev_index = this.index;
   this.index = _INDEX;
   this.length = _LENGTH;
