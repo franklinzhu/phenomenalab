@@ -3,6 +3,16 @@ import 'jquery';
 import Assets from './handlers/assetHandler';
 import Projects from './handlers/projectHandler';
 
+// $(".menu-toggle")
+//   .on('click', function() {
+//     $(this)
+//       .toggleClass("on");
+//     $('.menu-section')
+//       .toggleClass("on");
+//     $("#nav")
+//       .toggleClass('hidden');
+//   });
+
 //preload all thumbnails
 var assets = new Assets(
   'futureofmusic',
