@@ -8,17 +8,22 @@ import Actors from './modules/actors';
 import Effector from './modules/effector';
 import Navi from './modules/navigator';
 
+import 'three/DeviceOrientationControls';
+
 export default function Projects(
 	_PROJECTNUM,
-	_PROJECTTHUMB,
-	_PROJECTURLS,
-	_PROJECTINFOS,
+	_PROJECTASSETS,
 	_PROJECTWIDTH,
 	_PROJECTHEIGHT,
 	_PROJECTGAP,
 	_ROW
 ) {
-	this.projectMat = _PROJECTTHUMB;
+	// assets.imgs, //load each projects thumbnails
+	// assets.playerURLs, //load each projects vimeo links
+	// assets.projectInfo, //load each projects infos
+
+	this.assets = _PROJECTASSETS;
+
 	this.projects = [];
 	this.projectNum = _PROJECTNUM; //8;
 	this.width = _PROJECTWIDTH; //200;
@@ -26,8 +31,6 @@ export default function Projects(
 	this.gap = _PROJECTGAP; //5;
 	this.row = _ROW; //3;
 	this.mouse = new THREE.Vector2(1, -1);
-	this.url = _PROJECTURLS;
-	this.info = _PROJECTINFOS;
 
 	this.initialOffset = null;
 	this.gammaRotation = 0;
@@ -58,7 +61,7 @@ Projects.prototype.init = function() {
 		this.gap,
 		this.row,
 		this.projectNum,
-		this.projectMat,
+		this.assets.imgs, // this.projectMat,
 		this.scene,
 		this.md
 	);
@@ -71,6 +74,7 @@ Projects.prototype.init = function() {
 	);
 	if (this.md.mobile()) {
 		this.camera.position.set(0, 0, 4000);
+		this.device = new THREE.DeviceOrientationControls(this.actors.group);
 	} else {
 		this.camera.position.set(1200, 1900, 2200);
 		this.navi = new Navi(this.camera);
@@ -81,9 +85,9 @@ Projects.prototype.init = function() {
 		this.mouse,
 		this.camera,
 		this.actors,
-		this.url,
-		this.info,
-		this.md
+		this.assets,
+		this.md,
+		this.device
 	);
 
 	this.renderer = new THREE.WebGLRenderer({
@@ -105,14 +109,15 @@ Projects.prototype.init = function() {
 
 Projects.prototype.render = function() {
 	if (this.md.mobile()) {
-		this.gR = Math.min(Math.max(this.gammaRotation, -90), 90);
-		this.bR = Math.min(Math.max(this.betaRotation, 50), 120);
-
-		this.camera.position.y +=
-			((this.bR - 60) * 5 - this.camera.position.y) * 0.015;
-		this.camera.position.x += (-this.gR * 10 - this.camera.position.x) * 0.095;
-
-		this.camera.lookAt(this.scene.position);
+		this.device.update();
+		// this.gR = Math.min(Math.max(this.gammaRotation, -90), 90);
+		// this.bR = Math.min(Math.max(this.betaRotation, 50), 120);
+		//
+		// this.camera.position.y +=
+		// 	((this.bR - 60) * 5 - this.camera.position.y) * 0.015;
+		// this.camera.position.x += (-this.gR * 10 - this.camera.position.x) * 0.095;
+		//
+		// this.camera.lookAt(this.scene.position);
 	} else {
 		this.navi.update(
 			this.effector.showAbout,
@@ -120,7 +125,6 @@ Projects.prototype.render = function() {
 			this.effector.interactive
 		);
 	}
-
 	this.renderer.render(this.scene, this.camera);
 };
 
@@ -139,8 +143,10 @@ Projects.prototype.initUI = function() {
 
 	document.addEventListener('mousemove', this.mouseMove.bind(this));
 	document.addEventListener('mousedown', this.mouseDown.bind(this));
-	document.addEventListener('touchstart', this.touchDown.bind(this));
-	//document.addEventListener('touchend', this.touchEnd.bind(this));
+
+	document.addEventListener('touchstart', this.touchStart.bind(this));
+	// document.addEventListener('touchmove', this.touchMove.bind(this));
+	document.addEventListener('touchend', this.touchEnd.bind(this));
 	window.addEventListener('resize', this.resize.bind(this));
 	window.addEventListener(
 		'deviceorientation',
@@ -166,31 +172,29 @@ Projects.prototype.handleFullScreen = function() {
 	}
 };
 
-Projects.prototype.mouseDown = function() {
-	this.effector.mouseDown();
-};
-
-Projects.prototype.touchDown = function() {
-	// event.preventDefault();
-	this.effector.mouseDown();
-	this.effector.update();
+Projects.prototype.touchStart = function() {
 	this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
 	this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
-	console.log(this.mouse.y);
+
+	this.effector.update();
+	this.effector.mouseDown();
 };
 
 Projects.prototype.touchEnd = function() {
-	event.preventDefault();
-	this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
-	this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
+	//this.effector.mouseDown();
+	// event.preventDefault();
+	// this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
+	// this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
+};
+
+Projects.prototype.mouseDown = function() {
+	this.effector.mouseDown();
 };
 
 Projects.prototype.mouseMove = function(event) {
 	event.preventDefault();
 	this.effector.update();
 	if (this.md.mobile()) {
-		// this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
-		// this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
 	} else {
 		this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
 		this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;

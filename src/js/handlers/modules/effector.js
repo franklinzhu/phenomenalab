@@ -4,18 +4,23 @@ export default function Effector(
   _MOUSE,
   _CAMERA,
   _TARGET,
-  _PROJECTURLS,
-  _PROJECTINFOS,
-  _MOBILE
+  _ASSETS,
+  _MOBILE,
+  _DEVICE
 ) {
   this.mouse = _MOUSE;
   this.camera = _CAMERA;
   this.originalCameraPosition = this.camera.position.clone();
   this.originalCameraRotation = this.camera.rotation.clone();
   this.target = _TARGET;
-  this.url = _PROJECTURLS;
-  this.info = _PROJECTINFOS;
+
+  this.assets = _ASSETS;
+  this.imgUrl = this.assets.projectImg;
+  this.url = this.assets.playerURLs;
+  this.info = this.assets.projectInfo;
+
   this.md = _MOBILE;
+  this.device = _DEVICE;
 
   this.showAbout = 0; //f
   this.showContact = 0; //f
@@ -34,8 +39,8 @@ export default function Effector(
   this.audios = new Audios();
 }
 
-Effector.prototype.hover = function() {
-  this.addSelectedObject = function(object) {
+Effector.prototype.hover = function () {
+  this.addSelectedObject = function (object) {
     this.selectedObjects = [];
     this.selectedObjects.push(object);
   };
@@ -78,30 +83,31 @@ Effector.prototype.hover = function() {
   this.audios.hit = this.noSelect;
 };
 
-Effector.prototype.zoomCam = function() {
+Effector.prototype.zoomCam = function () {
   var zoom = 700;
 
   if (this.noSelect == false) {
     this.interactive.value = 0;
 
-    $('#iframe')
-      .attr('src', this.url[this.selectedIndex]);
-    $('#info')
-      .text(this.info[this.selectedIndex]);
+    $('#headImg').prepend('<img id="theImg" src="//:0" />');
+    $('#theImg').attr('src', this.imgUrl[this.selectedIndex]);
+    $('#info').append(this.info[this.selectedIndex]);
+    $('#iframe').attr('src', this.url[this.selectedIndex]);
 
     if (this.md.mobile()) {
+      this.device.dispose();
+
+      TweenMax.to(this.target.group.rotation, 2.5, {
+        x: 0,
+        y: 0,
+        z: 0
+      });
+
       TweenMax.to(this.camera.position, 2.5, {
         x: this.selectedObjects[0].position.x,
         y: this.selectedObjects[0].position.y,
-        z: this.selectedObjects[0].position.z + zoom,
-        ease: Power1.easeOut
-      });
-
-      TweenMax.to(this.camera.rotation, 2.5, {
-        x: 0,
-        y: 0,
-        z: 0,
-        ease: Power1.easeInOut,
+        z: this.selectedObjects[0].position.z + zoom * 3,
+        ease: Power1.easeOut,
         onComplete: this.handlePlayer
       });
     } else {
@@ -125,7 +131,7 @@ Effector.prototype.zoomCam = function() {
   }
 };
 
-Effector.prototype.update = function() {
+Effector.prototype.update = function () {
   if (
     this.showAbout != 0 ||
     this.showContact != 0 ||
@@ -135,30 +141,38 @@ Effector.prototype.update = function() {
   }
 };
 
-Effector.prototype.handlePlayer = function() {
-  $('#video')
-    .fadeIn(1000);
+Effector.prototype.handlePlayer = function () {
+  $('#video').fadeIn(1000);
 };
 
-Effector.prototype.handleEsc = function() {
+Effector.prototype.handleEsc = function () {
   if (this.interactive.value == 0) {
-    $('#iframe')
-      .attr('src', '//:0');
-    $('#video')
-      .scrollTop(0);
-    $('#video')
-      .fadeOut(100);
+    $('#headImg').empty();
+    $('#info').empty();
+    $('#iframe').attr('src', '//:0');
+    $('#video').scrollTop(0);
+    $('#video').fadeOut(100);
 
     for (var j = 0; j < this.target.group.children.length; j++) {
       TweenMax.to(this.target.group.children[j].scale, 3, {
         z: 1
       });
     }
-    TweenMax.to(this.camera.position, 1.5, {
-      x: this.originalCameraPosition.x,
-      y: this.originalCameraPosition.y,
-      z: this.originalCameraPosition.z
-    });
+    if (this.md.mobile()) {
+      TweenMax.to(this.camera.position, 1.5, {
+        x: this.originalCameraPosition.x,
+        y: this.originalCameraPosition.y,
+        z: this.originalCameraPosition.z,
+        onComplete: this.device.connect
+      });
+    } else {
+      TweenMax.to(this.camera.position, 1.5, {
+        x: this.originalCameraPosition.x,
+        y: this.originalCameraPosition.y,
+        z: this.originalCameraPosition.z
+      });
+    }
+
     TweenMax.to(this.camera.rotation, 1.5, {
       x: this.originalCameraRotation.x,
       y: this.originalCameraRotation.y,
@@ -170,13 +184,12 @@ Effector.prototype.handleEsc = function() {
   }
 };
 
-Effector.prototype.handleAbout = function() {
+Effector.prototype.handleAbout = function () {
   if (this.interactive.value == 1) {
     this.showAbout = this.showAbout ^ 1;
     if (this.showContact == 1) {
       this.showContact = this.showContact ^ 1;
-      $('#contact')
-        .fadeOut(500);
+      $('#contact').fadeOut(500);
     }
     $('#about')
       .delay(700)
@@ -186,8 +199,8 @@ Effector.prototype.handleAbout = function() {
         y: -600
       });
 
-      TweenMax.to(this.target.light, 2, {
-        intensity: 0.4
+      TweenMax.to(this.target.light.position, 2, {
+        y: 300
       });
       document.getElementsByClassName(
           'inner'
@@ -198,8 +211,8 @@ Effector.prototype.handleAbout = function() {
         y: 0
       });
 
-      TweenMax.to(this.target.light, 2, {
-        intensity: 1.8
+      TweenMax.to(this.target.light.position, 2, {
+        y: 900
       });
       document.getElementsByClassName(
           'inner'
@@ -209,13 +222,12 @@ Effector.prototype.handleAbout = function() {
   }
 };
 
-Effector.prototype.handleContact = function() {
+Effector.prototype.handleContact = function () {
   if (this.interactive.value == 1) {
     this.showContact = this.showContact ^ 1;
     if (this.showAbout == 1) {
       this.showAbout = this.showAbout ^ 1;
-      $('#about')
-        .fadeOut(500);
+      $('#about').fadeOut(500);
     }
     $('#contact')
       .delay(500)
@@ -226,8 +238,8 @@ Effector.prototype.handleContact = function() {
         y: 600
       });
 
-      TweenMax.to(this.target.light, 2, {
-        intensity: 0.4
+      TweenMax.to(this.target.light.position, 2, {
+        y: 1500
       });
       document.getElementsByClassName(
           'inner'
@@ -238,8 +250,8 @@ Effector.prototype.handleContact = function() {
         y: 0
       });
 
-      TweenMax.to(this.target.light, 2, {
-        intensity: 1.8
+      TweenMax.to(this.target.light.position, 2, {
+        y: 900
       });
       document.getElementsByClassName(
           'inner'
@@ -249,7 +261,7 @@ Effector.prototype.handleContact = function() {
   }
 };
 
-Effector.prototype.mouseDown = function() {
+Effector.prototype.mouseDown = function () {
   if (this.interactive.value == 1) {
     this.zoomCam();
   }

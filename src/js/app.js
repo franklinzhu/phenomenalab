@@ -3,16 +3,6 @@ import 'jquery';
 import Assets from './handlers/assetHandler';
 import Projects from './handlers/projectHandler';
 
-// $(".menu-toggle")
-//   .on('click', function() {
-//     $(this)
-//       .toggleClass("on");
-//     $('.menu-section')
-//       .toggleClass("on");
-//     $("#nav")
-//       .toggleClass('hidden');
-//   });
-
 //preload all thumbnails
 var assets = new Assets(
   'futureofmusic',
@@ -32,9 +22,7 @@ function init() {
   var projectNum = 10; //
   projects = new Projects(
     projectNum, //number of projects
-    assets.imgs, //load each projects thumbnails
-    assets.playerURLs, //load each projects vimeo links
-    assets.projectInfo, //load each projects infos
+    assets,
     488, //project block width
     244, //project block height
     8, //gap width between projects blocks
@@ -47,7 +35,7 @@ function animate() {
   projects.render();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   init();
   animate();
 });
