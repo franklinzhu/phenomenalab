@@ -1,0 +1,36 @@
+{
+	"name": "PhenomenaLab",
+	"version": "1.0.0",
+	"homepage": "https://franklinzhu.github.io/phenomena-lab/",
+	"description": "Phenomena Lab new site",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack-dev-server",
+		"prod": "webpack -p",
+		"deploy": "gh-pages"
+	},
+	"author": "Franklin Fengyi Zhu",
+	"license": "ISC",
+	"devDependencies": {
+		"clean-webpack-plugin": "^0.1.19",
+		"css-loader": "^0.28.11",
+		"extract-text-webpack-plugin": "^4.0.0-beta.0",
+		"file-loader": "^1.1.11",
+		"html-loader": "^0.5.5",
+		"html-webpack-plugin": "^3.2.0",
+		"style-loader": "^0.20.3",
+		"toggle-fullscreen": "^0.3.3",
+		"uglifyjs-webpack-plugin": "^1.2.4",
+		"webpack": "^4.5.0",
+		"webpack-cli": "^2.0.13",
+		"webpack-dev-server": "^3.1.1"
+	},
+	"dependencies": {
+		"gsap": "^1.20.4",
+		"jquery": "^3.3.1",
+		"mobile-detect": "^1.4.1",
+		"screenfull": "^3.3.2",
+		"three": "^0.91.0"
+	}
+}
