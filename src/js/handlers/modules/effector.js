@@ -15,9 +15,10 @@ export default function Effector(
   this.target = _TARGET;
 
   this.assets = _ASSETS;
-  this.imgUrl = this.assets.projectImg;
-  this.url = this.assets.playerURLs;
+  this.mainVidURLs = this.assets.projectMainVidURLs;
   this.info = this.assets.projectInfo;
+  this.makinVidURLs = this.assets.projectMakinVidURLs;
+  this.credits = this.assets.projectCredits;
 
   this.md = _MOBILE;
   this.device = _DEVICE;
@@ -89,10 +90,12 @@ Effector.prototype.zoomCam = function () {
   if (this.noSelect == false) {
     this.interactive.value = 0;
 
-    $('#headImg').prepend('<img id="theImg" src="//:0" />');
-    $('#theImg').attr('src', this.imgUrl[this.selectedIndex]);
+    // $('#mainVid').prepend('<img id="theImg" src="//:0" />');
+    // $('#theImg').attr('src', this.imgUrl[this.selectedIndex]);
+    $('#iframe1').attr('src', this.mainVidURLs[this.selectedIndex]);
     $('#info').append(this.info[this.selectedIndex]);
-    $('#iframe').attr('src', this.url[this.selectedIndex]);
+    $('#iframe2').attr('src', this.makinVidURLs[this.selectedIndex]);
+    $('#credits').append(this.credits[this.selectedIndex]);
 
     if (this.md.mobile()) {
       this.device.dispose();
@@ -147,9 +150,10 @@ Effector.prototype.handlePlayer = function () {
 
 Effector.prototype.handleEsc = function () {
   if (this.interactive.value == 0) {
-    $('#headImg').empty();
+    $('#iframe1').attr('src', '//:0');
     $('#info').empty();
-    $('#iframe').attr('src', '//:0');
+    $('#iframe2').attr('src', '//:0');
+    $('#credits').empty();
     $('#video').scrollTop(0);
     $('#video').fadeOut(100);
 
