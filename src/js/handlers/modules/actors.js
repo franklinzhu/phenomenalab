@@ -20,7 +20,7 @@ export default function Actors(
   this.init();
 }
 
-Actors.prototype.init = function () {
+Actors.prototype.init = function() {
   var thickness = 15;
   var geo = new THREE.BoxBufferGeometry(this.width, this.height, thickness);
   geo.applyMatrix(new THREE.Matrix4()
@@ -72,7 +72,7 @@ Actors.prototype.init = function () {
     .load(
       require('./../../../../static/imgs/ui/webgrid.png')
     );
-  var mshMat = new THREE.MeshStandardMaterial({
+  var mshMat = new THREE.MeshBasicMaterial({
     color: 'rgb(89,97,105)',
     alphaMap: texture,
     transparent: true
@@ -111,7 +111,7 @@ Actors.prototype.init = function () {
   this.initAnimation();
 };
 
-Actors.prototype.initAnimation = function () {
+Actors.prototype.initAnimation = function() {
   TweenMax.to(this.group.position, 3, {
     y: 0
   });

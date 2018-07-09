@@ -42,7 +42,7 @@ export default function Projects(
   var deviceChecker = new DeviceChecker();
   this.isRetina = deviceChecker.is_retina();
 
-  // console.log('made with love by Fengyi Franklin Zhu @ fengyizhu.com')
+  console.log('built by Fengyi Franklin Zhu @ fengyizhu.com');
 
   // console.log('retina display is ' + this.isRetina);
   // if (this.md.mobile()) {
@@ -54,7 +54,7 @@ export default function Projects(
   this.init();
 }
 
-Projects.prototype.init = function () {
+Projects.prototype.init = function() {
   this.scene = new THREE.Scene();
 
   this.actors = new Actors(
@@ -109,7 +109,7 @@ Projects.prototype.init = function () {
   this.initUI();
 };
 
-Projects.prototype.render = function () {
+Projects.prototype.render = function() {
   if (this.md.mobile()) {
     this.device.update();
   } else {
@@ -122,7 +122,7 @@ Projects.prototype.render = function () {
   this.renderer.render(this.scene, this.camera);
 };
 
-Projects.prototype.initUI = function () {
+Projects.prototype.initUI = function() {
   var about = document.getElementsByClassName('inner')[0].children[1]
     .children[0];
   var contact = document.getElementsByClassName('inner')[0].children[1]
@@ -148,25 +148,25 @@ Projects.prototype.initUI = function () {
   );
 };
 
-Projects.prototype.handleAbout = function () {
+Projects.prototype.handleAbout = function() {
   this.effector.handleAbout();
 };
 
-Projects.prototype.handleContact = function () {
+Projects.prototype.handleContact = function() {
   this.effector.handleContact();
 };
 
-Projects.prototype.handleEsc = function () {
+Projects.prototype.handleEsc = function() {
   this.effector.handleEsc();
 };
 
-Projects.prototype.handleFullScreen = function () {
+Projects.prototype.handleFullScreen = function() {
   if (screenfull.enabled) {
     screenfull.toggle();
   }
 };
 
-Projects.prototype.touchStart = function () {
+Projects.prototype.touchStart = function() {
   this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
   this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
 
@@ -174,18 +174,18 @@ Projects.prototype.touchStart = function () {
   this.effector.mouseDown();
 };
 
-Projects.prototype.touchEnd = function () {
+Projects.prototype.touchEnd = function() {
   //this.effector.mouseDown();
   // event.preventDefault();
   // this.mouse.x = event.touches[0].pageX / window.innerWidth * 2 - 1;
   // this.mouse.y = -(event.touches[0].pageY / window.innerHeight * 2 - 1);
 };
 
-Projects.prototype.mouseDown = function () {
+Projects.prototype.mouseDown = function() {
   this.effector.mouseDown();
 };
 
-Projects.prototype.mouseMove = function (event) {
+Projects.prototype.mouseMove = function(event) {
   event.preventDefault();
   this.effector.update();
   if (this.md.mobile()) {} else {
@@ -194,7 +194,7 @@ Projects.prototype.mouseMove = function (event) {
   }
 };
 
-Projects.prototype.resize = function () {
+Projects.prototype.resize = function() {
   this.w = window.innerWidth / 1;
   this.h = window.innerHeight / 1;
 
@@ -204,7 +204,7 @@ Projects.prototype.resize = function () {
   this.renderer.setSize(this.w, this.h);
 };
 
-Projects.prototype.deviceorientation = function (e) {
+Projects.prototype.deviceorientation = function(e) {
   this.betaRotation = e.beta ? e.beta : 0;
   this.gammaRotation = e.gamma ? e.gamma : 0;
 };
