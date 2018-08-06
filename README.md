@@ -1,3 +1,3 @@
 # phenomenalab
-Phenomena lab new site WIP
+Phenomena lab new site
 https://franklinzhu.github.io/phenomenalab/
