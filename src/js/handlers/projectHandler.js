@@ -12,8 +12,6 @@ import Actors from './modules/actors';
 import Effector from './modules/effector';
 import Navi from './modules/navigator';
 
-import 'three/DeviceOrientationControls';
-
 export default function Projects(
   _PROJECTNUM,
   _PROJECTASSETS,
@@ -31,12 +29,6 @@ export default function Projects(
   this.gap = _PROJECTGAP; //5;
   this.row = _ROW; //3;
   this.mouse = new THREE.Vector2(1, -1);
-
-  this.initialOffset = null;
-  this.gammaRotation = 0;
-  this.betaRotation = 0;
-  this.gR = 0;
-  this.bR = 0;
 
   this.md = new MobileDetect(window.navigator.userAgent);
   var deviceChecker = new DeviceChecker();
@@ -76,7 +68,8 @@ Projects.prototype.init = function() {
   );
   if (this.md.mobile()) {
     this.camera.position.set(0, 0, 4000);
-    this.device = new THREE.DeviceOrientationControls(this.actors.group);
+    this.targetRotationX = 0;
+    this.targetRotationY = 0;
   } else {
     this.camera.position.set(1200, 1900, 2200);
     this.navi = new Navi(this.camera);
@@ -88,8 +81,7 @@ Projects.prototype.init = function() {
     this.camera,
     this.actors,
     this.assets,
-    this.md,
-    this.device
+    this.md
   );
 
   this.renderer = new THREE.WebGLRenderer({
@@ -111,7 +103,11 @@ Projects.prototype.init = function() {
 
 Projects.prototype.render = function() {
   if (this.md.mobile()) {
-    this.device.update();
+    this.actors.group.rotation.set(
+      THREE.Math.lerp(this.actors.group.rotation.x, this.targetRotationX, 0.05),
+      THREE.Math.lerp(this.actors.group.rotation.y, this.targetRotationY, 0.05),
+      0
+    );
   } else {
     this.navi.update(
       this.effector.showAbout,
@@ -205,6 +201,9 @@ Projects.prototype.resize = function() {
 };
 
 Projects.prototype.deviceorientation = function(e) {
-  this.betaRotation = e.beta ? e.beta : 0;
-  this.gammaRotation = e.gamma ? e.gamma : 0;
+  this.y = THREE.Math.mapLinear(e.gamma || 0, -60, 60, -0.25, 0.25);
+  this.x = THREE.Math.mapLinear(e.beta || 0, -60, 60, -0.25, 0.25);
+
+  this.targetRotationX = this.x;
+  this.targetRotationY = this.y;
 };

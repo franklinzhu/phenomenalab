@@ -73,10 +73,6 @@ module.exports = {
 			'three/OrbitControls': path.join(
 				__dirname,
 				'node_modules/three/examples/js/controls/OrbitControls.js'
-			),
-			'three/DeviceOrientationControls': path.join(
-				__dirname,
-				'node_modules/three/examples/js/controls/DeviceOrientationControls.js'
 			)
 		}
 	},
