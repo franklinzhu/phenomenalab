@@ -201,8 +201,8 @@ Projects.prototype.resize = function() {
 };
 
 Projects.prototype.deviceorientation = function(e) {
-  this.y = THREE.Math.mapLinear(e.gamma || 0, -60, 60, -0.25, 0.25);
-  this.x = THREE.Math.mapLinear(e.beta || 0, -60, 60, -0.25, 0.25);
+  this.y = THREE.Math.mapLinear(e.gamma || 0, -60, 60, -0.75, 0.75);
+  this.x = THREE.Math.mapLinear(e.beta || 0, -60, 60, -0.75, 0.75);
 
   this.targetRotationX = this.x;
   this.targetRotationY = this.y;
