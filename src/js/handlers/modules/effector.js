@@ -1,12 +1,6 @@
 import Audios from './audios';
 
-export default function Effector(
-  _MOUSE,
-  _CAMERA,
-  _TARGET,
-  _ASSETS,
-  _MOBILE
-) {
+export default function Effector(_MOUSE, _CAMERA, _TARGET, _ASSETS, _MOBILE) {
   this.mouse = _MOUSE;
   this.camera = _CAMERA;
   this.originalCameraPosition = this.camera.position.clone();
@@ -101,7 +95,6 @@ Effector.prototype.zoomCam = function() {
       .append(this.credits[this.selectedIndex]);
 
     if (this.md.mobile()) {
-
       TweenMax.to(this.target.group.rotation, 2.5, {
         x: 0,
         y: 0,
@@ -176,7 +169,6 @@ Effector.prototype.handleEsc = function() {
         x: this.originalCameraPosition.x,
         y: this.originalCameraPosition.y,
         z: this.originalCameraPosition.z
-
       });
     } else {
       TweenMax.to(this.camera.position, 1.5, {
@@ -249,9 +241,15 @@ Effector.prototype.handleContact = function() {
       .fadeToggle('slow', 'linear');
 
     if (this.showContact == 1) {
-      TweenMax.to(this.target.group.position, 2, {
-        y: 600
-      });
+      if (this.md.mobile()) {
+        TweenMax.to(this.target.group.position, 2, {
+          y: 860
+        });
+      } else {
+        TweenMax.to(this.target.group.position, 2, {
+          y: 600
+        });
+      }
 
       TweenMax.to(this.target.light.position, 2, {
         y: 1500
