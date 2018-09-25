@@ -4,14 +4,15 @@
 <head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121888607-1"></script>
   <script>
-  window.dataLayer = window.dataLayer || [];
+    window.dataLayer = window.dataLayer || [];
 
-function gtag() {
-	dataLayer.push(arguments);
-}
-gtag('js', new Date());
-gtag('config', 'UA-121888607-1');
-</script>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-121888607-1');
+
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="Phenomena Labs" content="">
@@ -27,6 +28,7 @@ gtag('config', 'UA-121888607-1');
   <div id="loader">
     <img src="./../static/imgs/ui/loader.gif" width="150" height=auto>
   </div>
+
 
   <div id="video">
     <div id="mainVid">
@@ -107,6 +109,16 @@ gtag('config', 'UA-121888607-1');
     </div>
 
   </footer>
+
+  <div class="mute-container">
+    <input type="checkbox" name="un-mute" id="un-mute" checked="false">
+    <label for="un-mute" class="unmute">
+          <img src="http://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg" alt="Speaker_Icon.svg" title="Unmute/speaker icon">
+      </label>
+    <label for="un-mute" class="mute">
+        <img src="http://upload.wikimedia.org/wikipedia/commons/3/3f/Mute_Icon.svg" alt="Mute_Icon.svg" title="Mute icon">
+      </label>
+  </div>
 </body>
 
 </html>
